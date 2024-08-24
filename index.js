@@ -45,7 +45,28 @@ program.command('add')
 program.command('list')
   .description('list all the todos of the day')
   .action(() => {
-    console.log("items listed");
+    fs.readFile(TodoFile, 'utf8', (err, data) => {
+      if (err) {
+        console.error("error reading the file", err)
+        return;
+      }
+      let jsondata;
+
+      try {
+        jsondata = JSON.parse(data);
+      }
+      catch (parseError) {
+        console.error('Error parsing JSON data ', parseError)
+        return;
+      }
+
+      let count = 1;
+      for (let i = 0; i < jsondata.length; i++) {
+        console.log(count + ". " + jsondata[i].str);
+        count++;
+      }
+    })
+
   })
 
 program.command('done')
