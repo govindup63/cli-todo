@@ -11,9 +11,9 @@ const TodoFile = path.join(__dirname, 'todos.json')
 
 
 program
-  .name('string-util')
-  .description('CLI to some JavaScript string utilities')
-  .version('0.8.0');
+  .name('todo-cli')
+  .description('Manage Your todos in cli')
+  .version('1.0.0');
 
 program.command('add')
   .description('add the todo to the list')
