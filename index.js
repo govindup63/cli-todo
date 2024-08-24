@@ -41,7 +41,7 @@ program.command('add')
           console.error("error adding the todo", writeError)
           return;
         }
-        console.log("todo added successfully");
+        console.log("todo " + chalk.green(str) + " added successfully");
       })
     })
   });
@@ -66,7 +66,7 @@ program.command('list')
 
       let count = 1;
       for (let i = 0; i < jsondata.length; i++) {
-        console.log(count + ". " + jsondata[i].str);
+        console.log(chalk.blue(count + ". " + jsondata[i].str));
         count++;
       }
     })
@@ -97,7 +97,7 @@ program.command('tick')
         if (index >= 0 && index < jsondata.length) {
           // Remove 1 item at the specified index
 
-          console.log(`your taks ${jsondata[index].str} is now removed`);
+          console.log(`your taks ${chalk.red(jsondata[index].str)} is now removed`);
           jsondata.splice(index, 1);
         } else {
           console.error('Invalid index. No task removed.');
@@ -110,7 +110,6 @@ program.command('tick')
           console.error("error deleting the todo", writeError)
           return;
         }
-        console.log("todo removed successfully");
       })
     })
   });
