@@ -1,8 +1,12 @@
-const { Command } = require('commander');
+import { Command } from 'commander';
 const program = new Command();
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path';
+import { fileURLToPath } from 'url';
+import chalk from 'chalk';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const TodoFile = path.join(__dirname, 'todos.json')
 
 
@@ -69,10 +73,46 @@ program.command('list')
 
   })
 
-program.command('done')
+program.command('tick')
   .description('remove the completed todos from the list')
-  .argument('<string>', 'task no. to get deleted')
-  .action((str) => {
-    console.log("you removed this task " + str)
-  })
+  .argument('<number>', 'task no. to get deleted')
+  .action((num) => {
+    fs.readFile(TodoFile, 'utf8', (err, data) => {
+      if (err) {
+        console.error("error reading the file", err)
+        return;
+      }
+      let jsondata;
+
+      try {
+        jsondata = JSON.parse(data);
+      }
+      catch (parseError) {
+        console.error('Error parsing JSON data ', parseError)
+        return;
+      }
+
+      function removeDataByIndex(index) {
+        // Check if the index is within the bounds of the array
+        if (index >= 0 && index < jsondata.length) {
+          // Remove 1 item at the specified index
+
+          console.log(`your taks ${jsondata[index].str} is now removed`);
+          jsondata.splice(index, 1);
+        } else {
+          console.error('Invalid index. No task removed.');
+        }
+      }
+      removeDataByIndex(num - 1)
+      const updatedJsonData = JSON.stringify(jsondata, null, 4)
+      fs.writeFile(TodoFile, updatedJsonData, 'utf8', (writeError) => {
+        if (writeError) {
+          console.error("error deleting the todo", writeError)
+          return;
+        }
+        console.log("todo removed successfully");
+      })
+    })
+  });
+
 program.parse();
