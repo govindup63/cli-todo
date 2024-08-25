@@ -1,5 +1,3 @@
-Here is a single copyable `README.md` file:
-
 ```markdown
 # todo-cli
 
