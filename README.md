@@ -1,4 +1,3 @@
-```markdown
 # todo-cli
 
 **todo-cli** is a simple command-line tool to manage your to-do tasks efficiently. It allows you to add, list, and remove tasks directly from your terminal.
